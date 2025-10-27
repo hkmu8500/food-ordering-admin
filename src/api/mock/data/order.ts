@@ -1,0 +1,105 @@
+export const mockOrders = [
+  {
+    id: "ORD-001",
+    userId: "user-1",
+    userName: "John Doe",
+    items: [
+      {
+        menuId: "1",
+        name: "Burger",
+        quantity: 2,
+        price: "8.99",
+      },
+      {
+        menuId: "2",
+        name: "Fries",
+        quantity: 1,
+        price: "3.99",
+      },
+    ],
+    totalPrice: "21.97",
+    status: "pending",
+    createdAt: new Date(Date.now() - 3600000).toISOString(),
+    updatedAt: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: "ORD-002",
+    userId: "user-2",
+    userName: "Jane Smith",
+    items: [
+      {
+        menuId: "3",
+        name: "Pizza",
+        quantity: 1,
+        price: "12.99",
+      },
+    ],
+    totalPrice: "12.99",
+    status: "confirmed",
+    createdAt: new Date(Date.now() - 1800000).toISOString(),
+    updatedAt: new Date(Date.now() - 1800000).toISOString(),
+  },
+  {
+    id: "ORD-003",
+    userId: "user-3",
+    userName: "Mike Johnson",
+    items: [
+      {
+        menuId: "1",
+        name: "Burger",
+        quantity: 1,
+        price: "8.99",
+      },
+      {
+        menuId: "4",
+        name: "Soda",
+        quantity: 2,
+        price: "2.99",
+      },
+    ],
+    totalPrice: "14.97",
+    status: "preparing",
+    createdAt: new Date(Date.now() - 900000).toISOString(),
+    updatedAt: new Date(Date.now() - 900000).toISOString(),
+  },
+  {
+    id: "ORD-004",
+    userId: "user-4",
+    userName: "Sarah Wilson",
+    items: [
+      {
+        menuId: "2",
+        name: "Fries",
+        quantity: 3,
+        price: "3.99",
+      },
+    ],
+    totalPrice: "11.97",
+    status: "ready",
+    createdAt: new Date(Date.now() - 600000).toISOString(),
+    updatedAt: new Date(Date.now() - 600000).toISOString(),
+  },
+  {
+    id: "ORD-005",
+    userId: "user-5",
+    userName: "Tom Brown",
+    items: [
+      {
+        menuId: "3",
+        name: "Pizza",
+        quantity: 2,
+        price: "12.99",
+      },
+      {
+        menuId: "5",
+        name: "Salad",
+        quantity: 1,
+        price: "7.99",
+      },
+    ],
+    totalPrice: "33.97",
+    status: "completed",
+    createdAt: new Date(Date.now() - 300000).toISOString(),
+    updatedAt: new Date(Date.now() - 300000).toISOString(),
+  },
+];
