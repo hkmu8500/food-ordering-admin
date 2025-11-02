@@ -16,10 +16,13 @@ export default function OrdersPage() {
   } = useQuery<Order[]>({
     queryKey: ["orders"],
     queryFn: ordersApi.getOrders,
-    refetchInterval: 5000, // refetch every 5 seconds
   });
 
-  const { mutate: updateStatus, isPending: isUpdatingStatus } = useMutation({
+  const {
+    mutate: updateStatus,
+    isPending: isUpdatingStatus,
+    error: updateError,
+  } = useMutation({
     mutationFn: (args: { orderId: string; status: string }) =>
       ordersApi.updateOrderStatus(args.orderId, args.status),
     onSuccess: () => {
@@ -27,30 +30,16 @@ export default function OrdersPage() {
     },
   });
 
-  const { mutate: deleteOrder, isPending: isDeletingOrder } = useMutation({
-    mutationFn: ordersApi.deleteOrder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
-      setSelectedOrderId(null);
-    },
-  });
-
   const statusColors: Record<string, string> = {
     pending: "bg-yellow-600",
-    confirmed: "bg-blue-600",
-    preparing: "bg-purple-600",
-    ready: "bg-green-600",
     completed: "bg-emerald-600",
-    cancelled: "bg-red-600",
+    canceled: "bg-red-600",
   };
 
   const statusLabels: Record<string, string> = {
     pending: "Pending",
-    confirmed: "Confirmed",
-    preparing: "Preparing",
-    ready: "Ready",
     completed: "Completed",
-    cancelled: "Cancelled",
+    canceled: "Cancelled",
   };
 
   if (isLoading) {
@@ -62,6 +51,7 @@ export default function OrdersPage() {
   }
 
   if (error) {
+    // console.error("Error loading orders:", error.message);
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-8">
         <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded-lg">
@@ -69,6 +59,10 @@ export default function OrdersPage() {
         </div>
       </div>
     );
+  }
+
+  if (updateError) {
+    console.error("Error updating order status:", updateError);
   }
 
   return (
@@ -131,7 +125,7 @@ export default function OrdersPage() {
                       className="border-b border-slate-600 hover:bg-slate-700/50 transition"
                     >
                       <td className="px-4 py-3 text-sm text-white font-mono">
-                        {order.id.substring(0, 8)}...
+                        {order.id}
                       </td>
                       <td className="px-4 py-3 text-sm text-slate-300">
                         {order.userName}
@@ -222,23 +216,13 @@ export default function OrdersPage() {
                           className="w-full px-3 py-2 bg-slate-700 border border-slate-600 text-white rounded-lg cursor-pointer disabled:opacity-50"
                         >
                           <option value="pending">Pending</option>
-                          <option value="confirmed">Confirmed</option>
-                          <option value="preparing">Preparing</option>
-                          <option value="ready">Ready</option>
                           <option value="completed">Completed</option>
-                          <option value="cancelled">Cancelled</option>
+                          <option value="canceled">Canceled</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="flex gap-3">
-                      <button
-                        onClick={() => deleteOrder(selectedOrderId)}
-                        disabled={isDeletingOrder}
-                        className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition disabled:opacity-50 cursor-pointer"
-                      >
-                        Delete
-                      </button>
                       <button
                         onClick={() => setSelectedOrderId(null)}
                         className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg transition cursor-pointer"

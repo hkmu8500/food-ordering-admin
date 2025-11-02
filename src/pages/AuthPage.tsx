@@ -6,30 +6,10 @@ import { useAuthStore } from "../stores/useAuthStore";
 import axios from "axios";
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
   const [userName, setUserName] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
-
-  const { mutate: signup, isPending: isSignupPending } = useMutation({
-    mutationFn: authApi.signup,
-    onSuccess: (data) => {
-      const { id, name } = data.data;
-      setAuth(id, name);
-      navigate("/");
-    },
-    onError: (error: unknown) => {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data?.detail[0].msg ||
-            "Registration failed. Please try again."
-        );
-      } else {
-        setError("Registration failed. Please try again.");
-      }
-    },
-  });
 
   const { mutate: login, isPending: isLoginPending } = useMutation({
     mutationFn: authApi.login,
@@ -60,14 +40,10 @@ export default function AuthPage() {
       return;
     }
 
-    if (isLogin) {
-      login({ userName });
-    } else {
-      signup({ userName });
-    }
+    login({ userName });
   };
 
-  const isPending = isLoginPending || isSignupPending;
+  const isPending = isLoginPending;
 
   useEffect(() => {
     if (useAuthStore.getState().isAuthenticated) {
@@ -82,9 +58,7 @@ export default function AuthPage() {
           <h1 className="text-3xl font-bold text-white mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-slate-400">
-            {isLogin ? "Welcome back" : "Create a new admin account"}
-          </p>
+          <p className="text-slate-400">{"Welcome back"}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -117,24 +91,9 @@ export default function AuthPage() {
             disabled={isPending}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            {isPending ? "Processing..." : isLogin ? "Login" : "Sign Up"}
+            {isPending ? "Processing..." : "Login"}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError("");
-              setUserName("");
-            }}
-            className="text-blue-400 hover:text-blue-300 font-medium text-sm cursor-pointer"
-          >
-            {isLogin
-              ? "Don't have an account? Sign Up"
-              : "Already have an account? Login"}
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -11,8 +11,6 @@ import OrdersPage from "./pages/OrderPage";
 // Mock APIs in development mode
 if (import.meta.env.DEV) {
   import("./api/mock/authApi");
-  import("./api/mock/menuApi");
-  import("./api/mock/orderApi");
 }
 
 const queryClient = new QueryClient();
