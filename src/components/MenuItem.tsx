@@ -13,7 +13,7 @@ const MenuItem = (item: MenuItemType) => {
       {/* Mobile: Horizontal Layout */}
       <div className="flex sm:flex-col">
         {/* Image - Square on mobile, responsive on desktop */}
-        <div className="relative w-24 h-24 sm:w-full sm:aspect-square flex-shrink-0">
+        <div className="relative w-24 h-24 sm:w-full sm:aspect-square shrink-0">
           <img
             src={imageUrl}
             alt={name}

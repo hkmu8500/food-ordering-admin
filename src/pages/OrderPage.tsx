@@ -44,7 +44,7 @@ export default function OrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-8 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 p-4 sm:p-8 flex items-center justify-center">
         <div className="text-white text-lg">Loading orders...</div>
       </div>
     );
@@ -53,7 +53,7 @@ export default function OrdersPage() {
   if (error) {
     // console.error("Error loading orders:", error.message);
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-8">
+      <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 p-4 sm:p-8">
         <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded-lg">
           Error loading orders
         </div>
@@ -66,7 +66,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-8">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header with Back Button */}
         <div className="mb-6 flex items-center justify-between">
