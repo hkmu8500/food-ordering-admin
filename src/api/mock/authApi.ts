@@ -3,7 +3,7 @@ import mock from "@/lib/mockAdapter";
 
 // In-memory user storage
 const mockUsers: { id: number; name: string }[] = [
-  { id: 1, name: "TestUser1" },
+  { id: 1, name: "admin" },
   { id: 2, name: "TestUser2" },
 ];
 
