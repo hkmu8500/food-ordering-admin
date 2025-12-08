@@ -1,5 +1,5 @@
-import axios from "@/lib/axios";
 import type { ApiResponse } from "@/types/menu";
+import axiosInstance from "@/lib/axios";
 
 export interface Order {
   id: string;
@@ -7,13 +7,7 @@ export interface Order {
   userName: string;
   items: OrderItem[];
   totalPrice: string;
-  status:
-    | "pending"
-    | "confirmed"
-    | "preparing"
-    | "ready"
-    | "completed"
-    | "cancelled";
+  status: "pending" | "completed" | "canceled";
   createdAt: string;
   updatedAt: string;
 }
@@ -32,7 +26,9 @@ export const ordersApi = {
    * @returns Promise<Order[]>
    */
   getOrders: async (): Promise<Order[]> => {
-    const response = await axios.get<ApiResponse<Order[]>>("/orders");
+    const response = await axiosInstance.get<ApiResponse<Order[]>>(
+      "/admin/orders"
+    );
     return response.data.data;
   },
 
@@ -43,12 +39,14 @@ export const ordersApi = {
    * @returns Promise<Order>
    */
   getOrderById: async (orderId: string): Promise<Order> => {
-    const response = await axios.get<ApiResponse<Order>>(`/orders/${orderId}`);
+    const response = await axiosInstance.get<ApiResponse<Order>>(
+      `/admin/orders/${orderId}`
+    );
     return response.data.data;
   },
 
   /**
-   * PATCH /api/admin/orders/:id
+   * POST /api/admin/orders/:id/status
    * Update order status
    * @param orderId - Order ID
    * @param status - New status
@@ -58,9 +56,12 @@ export const ordersApi = {
     orderId: string,
     status: string
   ): Promise<Order> => {
-    const response = await axios.patch<ApiResponse<Order>>(
-      `/orders/${orderId}`,
-      { status }
+    const response = await axiosInstance.post<ApiResponse<Order>>(
+      `/admin/orders/${orderId}/status`,
+      { status },
+      {
+        params: { status },
+      }
     );
     return response.data.data;
   },
@@ -72,8 +73,8 @@ export const ordersApi = {
    * @returns Promise<Order>
    */
   deleteOrder: async (orderId: string): Promise<Order> => {
-    const response = await axios.delete<ApiResponse<Order>>(
-      `/orders/${orderId}`
+    const response = await axiosInstance.delete<ApiResponse<Order>>(
+      `/admin/orders/${orderId}`
     );
     return response.data.data;
   },

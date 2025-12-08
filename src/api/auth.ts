@@ -13,22 +13,9 @@ export interface UserData {
 type SignupResponse = ApiResponse<UserData>;
 
 export const authApi = {
-  signup: async (data: SignupRequest): Promise<SignupResponse> => {
-    const response = await axiosInstance.post<SignupResponse>(
-      "/auth/signup",
-      data,
-      {
-        params: {
-          user_name: data.userName,
-        },
-      }
-    );
-    return response.data;
-  },
-
   login: async (data: SignupRequest): Promise<SignupResponse> => {
     const response = await axiosInstance.post<SignupResponse>(
-      "/auth/login",
+      "/admin/auth/login",
       data,
       {
         params: {
